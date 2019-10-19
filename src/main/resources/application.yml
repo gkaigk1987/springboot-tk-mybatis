@@ -1,0 +1,45 @@
+server:
+  port: 9001
+
+spring:
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    mode: LEGACYHTML5 #去掉Thymeleaf强制校验，搭配nekohtml使用
+    prefix: classpath:/templates/
+    suffix: .html
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/homeacount?useSSL=false&rewriteBatchedStatements=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useOldAliasMetadataBehavior=true&serverTimezone=CTT
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: gk1987
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: true #此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      maximum-pool-size: 10 #连接池最大连接数，默认是10
+      minimum-idle: 5 #最小空闲连接数量
+      idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+      pool-name: MyHikariCP #自定义连接池名称
+      max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
+      connection-test-query: SELECT 1
+
+#MyBatis相关配置,无需手动写代码配置mybatis相关设置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.gk.tkmybatis.model
+  configuration:
+    map-underscore-to-camel-case: true  #设置驼峰命名
+
+#PageHelper相关配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+mapper:
+  mappers: com.gk.tkmybatis.config.MyMapper
+  not-empty: false
+  identity: MYSQL
